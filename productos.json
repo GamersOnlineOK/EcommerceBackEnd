@@ -1,0 +1,37 @@
+[{
+  "_id": {
+    "$oid": "61395e1774c48e60276039b0"
+  },
+  "timestamp": 1631149591576,
+  "title": "Chocolate 90% Amargo",
+  "description": "Riquisimo chocolate Amargo ",
+  "code": "CA101",
+  "img": "https://th.bing.com/th/id/OIP.ujkfzfVXsy6VRLoB9B9DPQHaE8?pid=ImgDet&rs=1",
+  "price": 250,
+  "stock": 15,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61395e69fd2c79ee21a86d61"
+  },
+  "timestamp": 1631149662882,
+  "title": "Frutilla con Chocolate",
+  "description": "Frutillas Bañadas en chocolate amargo",
+  "code": "FC102",
+  "img": "https://okdiario.com/img/2017/02/11/receta-de-fresas-con-chocolate-sin-azucar-anadido-1.jpg",
+  "price": 350,
+  "stock": 22,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61395f2fc645eee54557c37d"
+  },
+  "timestamp": 1631149871741,
+  "title": "Mandarina con Chocolate",
+  "description": "Sabrosos gajos de mandarina cubiertos de chocolate",
+  "code": "NC103",
+  "img": "https://img-global.cpcdn.com/002_recipes/recipes_41091_v1393351229_receta_foto_00041091/751x532cq70/photo.jpg",
+  "price": 354,
+  "stock": 45,
+  "__v": 0
+}]
