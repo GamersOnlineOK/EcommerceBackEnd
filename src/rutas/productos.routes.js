@@ -2,10 +2,23 @@ const express = require('express');
 const router = express.Router();
 const fs = require("fs");
 const { async } = require('regenerator-runtime');
+const PRODUCTOS=require('../models/classProduct')
 const FILE_PRODUCTOS = "productos.txt";
 const prod = require('../models/api');
+const admin=false;
 
-router.get('/', async (req, res) => {
+//MIDLEWARE
+
+const session=(req,res,next)=>{
+    if (admin) {
+        console.log("genial");
+        next();
+        
+    } else {
+        console.log("usuario no autorizado");
+    }
+}
+router.get('/',session, async (req, res) => {
 
     const ListProd = await prod.find();
     console.log(ListProd);
@@ -13,6 +26,7 @@ router.get('/', async (req, res) => {
 
 
 })
+
 
 // METODOS GET
 // ==============LISTAR PRODUCTO===================
@@ -29,16 +43,18 @@ router.get('/productos/listar/:id',async (req, res) => {
 
 })
 // METODOS POST
-router.post('/productos/guardar', async (req, res) => {
+router.post('/productos/guardar',session, async (req, res) => {
     const { id,timestamp, title,description,code,img,price,stock } = req.body;
     const producto = new prod({ id,timestamp, title,description,code,img,price,stock });
     console.log(producto);
     await producto.save();
-    res.json({title:"tarea Guardada"})
+    let saveproduct = PRODUCTOS.AddProduct(req.body);
+    console.log(saveproduct);
+    res.json({title:"Producto Guardado"})
 })
 
 // METODOS PUT
-router.put('/productos/actualizar/:id',async (req, res) => {
+router.put('/productos/actualizar/:id',session,async (req, res) => {
     const { id, title, price, img } = req.body;
     const updateProduct={id,title, price, img };
     const idToUpdate= req.params.id;
@@ -47,10 +63,11 @@ router.put('/productos/actualizar/:id',async (req, res) => {
 
 })
 
-router.delete('/productos/eliminar/:id', async (req, res) => {
+router.delete('/productos/eliminar/:id',session, async (req, res) => {
     const idToDelete=req.params.id;
     console.log(idToDelete);
     await prod.findByIdAndRemove(idToDelete);
+    
     res.send("Eliminado")
 
 })

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const fs = require("fs");
+const { nextTick } = require('process');
 const { async } = require('regenerator-runtime');
 const FILE_PRODUCTOS = "productos.txt";
 const prod = require('../models/apicart');
@@ -11,6 +12,7 @@ router.get('/', async (req, res) => {
     console.log(ListProd);
     res.json(ListProd)
 })
+
 
 // METODOS GET
 // ==============LISTAR PRODUCTO===================

@@ -2,10 +2,11 @@ import React from 'react';
 
 function ProductoCard(props) {
     console.log(props.title);
+
     return (
-        <div className="col">
+        <div className="col-3">
             <div className="card shadow" >
-                <img src={props.img} class="card-img-top"  />
+                <img src={props.img} class="card-img-top" height="180px" />
                 <div class="card-body">
                     <h5 class="card-title">{props.title}</h5>
                     <p class="card-text">{props.description}</p>

@@ -1,26 +1,32 @@
 [
 	{
-		"titulo": "Chocolate",
-		"price": "250",
-		"img": "https://dam.cocinafacil.com.mx/wp-content/uploads/2018/04/chocolate-amargo.jpg",
+		"timestamp": 1631385719088,
+		"title": "PRUEBA",
+		"description": "OTRA PRUEBA",
+		"code": "ASDASD",
+		"img": "ASDASD",
+		"price": "123",
+		"stock": "123",
 		"id": 1
 	},
 	{
-		"titulo": "Torta de chocolate",
-		"price": "450",
-		"img": "https://t1.rg.ltmcdn.com/es/images/4/8/8/torta_humeda_de_chocolate_decorada_47884_orig.jpg",
+		"timestamp": 1631385926175,
+		"title": "Mandarina con Chocolate",
+		"description": "Riquisimas mandarinas con chocolate",
+		"code": "MC103",
+		"img": "https://img-global.cpcdn.com/002_recipes/recipes_41091_v1393351229_receta_foto_00041091/751x532cq70/photo.jpg",
+		"price": "245",
+		"stock": "25",
 		"id": 2
 	},
 	{
-		"titulo": "mandarina con chocolate",
-		"price": "350",
-		"img": "https://cdn2.cocinadelirante.com/sites/default/files/styles/gallerie/public/images/2016/09/mandarines1.jpg",
+		"timestamp": 1631386012921,
+		"title": "asd",
+		"description": "asd",
+		"code": "asd",
+		"img": "asd",
+		"price": "123",
+		"stock": "123",
 		"id": 3
-	},
-	{
-		"titulo": "Trufas de Chocolate",
-		"price": "750",
-		"img": "https://www.diariamenteali.com/medias/receta-trufas-chocolate-bitter-1900Wx500H?context=bWFzdGVyfGltYWdlc3w5NDk1OHxpbWFnZS9qcGVnfGgxZi9oOTUvOTA3NDIwNzA2NDA5NC9yZWNldGEtdHJ1ZmFzLWNob2NvbGF0ZS1iaXR0ZXJfMTkwMFd4NTAwSHxiNGI0YzI2NTQyNzU3NDFlYTliMWZiNDU2YTRhYzUyZWIxMzhhNTU1MTRmZmUyOWEwMDIyNzEzM2FkZDVjMTUy",
-		"id": 4
 	}
 ]
