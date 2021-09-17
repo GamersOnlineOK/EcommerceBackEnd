@@ -5,7 +5,9 @@ const { async } = require('regenerator-runtime');
 const PRODUCTOS=require('../models/classProduct')
 const FILE_PRODUCTOS = "productos.txt";
 const prod = require('../models/api');
-const admin=false;
+const {options}=require('../option/conection')
+const knex=require('knex')(options);
+const admin=true;
 
 //MIDLEWARE
 
@@ -32,6 +34,11 @@ router.get('/',session, async (req, res) => {
 // ==============LISTAR PRODUCTO===================
 router.get('/productos/listar', async (req, res) => {
     const ListProd = await prod.find();
+    // kenx
+    knex.from('productos').select("*")
+    .then((data)=>{
+        console.log(data);
+    })
     console.log(ListProd);
     res.json(ListProd)
 })
@@ -43,12 +50,22 @@ router.get('/productos/listar/:id',async (req, res) => {
 
 })
 // METODOS POST
-router.post('/productos/guardar',session, async (req, res) => {
+router.post('/productos/guardar', async (req, res) => {
+    
+    
     const { id,timestamp, title,description,code,img,price,stock } = req.body;
     const producto = new prod({ id,timestamp, title,description,code,img,price,stock });
     console.log(producto);
     await producto.save();
     let saveproduct = PRODUCTOS.AddProduct(req.body);
+    // kenx
+    console.log("KNEX");
+    // await knex('productos').insert(saveproduct)
+    // .then(()=>console.log(saveproduct))
+    // .catch((err)=>{console.log(err);throw err})
+    // .finally(()=>{
+    //     knex.destroy();
+    // })
     console.log(saveproduct);
     res.json({title:"Producto Guardado"})
 })

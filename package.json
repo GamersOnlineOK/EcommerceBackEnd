@@ -13,9 +13,11 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "knex": "^0.95.11",
     "mongoose": "^6.0.5",
     "morgan": "^1.10.0",
     "net": "^1.0.2",
+    "sqlite3": "^5.0.2",
     "stream": "^0.0.2",
     "util": "^0.12.4"
   },
