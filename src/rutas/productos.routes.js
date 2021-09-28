@@ -20,6 +20,16 @@ const session=(req,res,next)=>{
         console.log("usuario no autorizado");
     }
 }
+const createTable=async (req,res,next)=>{
+    await knex.schema.dropTableIfExists('productos')
+    .createTable('productos',
+    table=>{
+        table.increments('id').notNullable()
+        table.string('nombre');
+        console.log("se creo la tabla");
+    })
+    next();
+}
 router.get('/',session, async (req, res) => {
 
     const ListProd = await prod.find();
@@ -50,7 +60,7 @@ router.get('/productos/listar/:id',async (req, res) => {
 
 })
 // METODOS POST
-router.post('/productos/guardar', async (req, res) => {
+router.post('/productos/guardar',createTable, async (req, res) => {
     
     
     const { id,timestamp, title,description,code,img,price,stock } = req.body;
@@ -58,16 +68,9 @@ router.post('/productos/guardar', async (req, res) => {
     console.log(producto);
     await producto.save();
     let saveproduct = PRODUCTOS.AddProduct(req.body);
-    // kenx
-    console.log("KNEX");
-    // await knex('productos').insert(saveproduct)
-    // .then(()=>console.log(saveproduct))
-    // .catch((err)=>{console.log(err);throw err})
-    // .finally(()=>{
-    //     knex.destroy();
-    // })
-    console.log(saveproduct);
-    res.json({title:"Producto Guardado"})
+   
+    console.log(productos);
+    res.json({title:productos})
 })
 
 // METODOS PUT
