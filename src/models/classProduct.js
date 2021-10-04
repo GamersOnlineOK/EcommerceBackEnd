@@ -1,74 +1,88 @@
 const fs = require("fs");
 const FILE_PRODUCTOS = "productos.txt";
 class Productos {
-    listaProductos = [];
-    idNuevo = 0;
-  
-    //Incremental de ID
-    AddProduct(array) {
-        fs.promises.readFile(FILE_PRODUCTOS).then(data => {
+  listaProductos = [];
+  idNuevo = 0;
 
-            const json = JSON.parse(data.toString('utf-8'));
-            const producto=({...array, id:json.length +1});
-            const productoFinal=json.push(producto);
-            fs.promises.writeFile(FILE_PRODUCTOS, JSON.stringify(json, null, "\t"))
-            .then(() => {
-                console.log("Producto Agregado Correctamente");
-                
-            })
-        })
-    }
-    // Valida productos en array
-    listProducto() {
-        let parametro = req.params.id;
-        fs.promises.readFile('./productos.txt')
-            .then(data => data.toString('utf-8'))
-            .then(datos => {
-                const json = JSON.parse(datos);
-                const filter=json.filter(data=>data.id==parametro);
-                { filter.length>0 ? (res.json({ filter })) : (res.json({ error: 'producto no encontrado' })) }
-    
-            })
-    }
-    // Valida producto existente y retorna producto o error
-    leerProductosConId(id) {
-      if (this.listaProductos[id - 1] == undefined) {
-        return { error: "Ese producto no existe aun" };
-      } else {
-        return this.listaProductos[id - 1];
-      }
-    }
-    // Actualiza un producto con ID existente
-    actualizarConID(id, productoNuevo) {
-      let idParsed = parseInt(id);
-      let productoAModificar = this.listaProductos.find((obj) => {
-        return obj.id == idParsed;
-      });
-      if (productoAModificar == undefined) {
-        return { error: "No existe el producto que desea actualizar" };
-      } else {
-        productoAModificar.title = productoNuevo.title;
-        productoAModificar.price = productoNuevo.price;
-        productoAModificar.thumbnail = productoNuevo.thumbnail;
-        return productoAModificar;
-      }
-    }
-    // Elimina un producto
-    deleteProduct(id) {
-        
+  //Incremental de ID
+  saveProduct(array) {
+    fs.promises.readFile(FILE_PRODUCTOS).then(data => {
 
-        fs.promises.readFile(FILE_PRODUCTOS).then(data => {
-    
-            const json = JSON.parse(data.toString('utf-8'));
-            const filter=json.filter(data=>data.id!=id);
-            res.send(filter)
-            fs.promises.writeFile(FILE_PRODUCTOS, JSON.stringify(filter, null, "\t"))
-            .then(() => {
-                console.log("Producto Actualizado Correctamente");
-            })
+      const json = JSON.parse(data.toString('utf-8'));
+      const productoFinal = json.push(array);
+      fs.promises.writeFile(FILE_PRODUCTOS, JSON.stringify(json, null, "\t"))
+        .then(() => {
+          console.log("Producto Agregado Correctamente");
+
         })
-    }
+    })
   }
-  
-  // Exporta el modulo Productos
-  module.exports = new Productos();
+  // Valida productos en array
+  async listar(req) {
+    let parametro = req.params.id;
+    const item = await fs.promises.readFile('./productos.txt')
+      .then(data => data.toString('utf-8'))
+      .then(datos => {
+        const json = JSON.parse(datos);
+        const filter = json.filter(data => data.id == parametro);
+        if (json.length > 0) {
+          console.log(json);
+          return json
+        } else {
+          let error = "producto no encontrado";
+          return error;
+        }
+      })
+    return item
+  }
+  // Valida producto existente y retorna producto o error
+  async listarById(parametro) {
+
+    const item = await fs.promises.readFile('./productos.txt')
+      .then(data => data.toString('utf-8'))
+      .then(datos => {
+        const json = JSON.parse(datos);
+        const filter = json.filter(data => data.id == parametro);
+        if (filter.length > 0) {
+          console.log(json);
+          return filter
+        } else {
+          let error = "producto no encontrado";
+          return error;
+        }
+      })
+    return item
+  }
+  // Actualiza un producto con ID existente
+  updateById(id, productoNuevo) {
+    fs.promises.readFile(FILE_PRODUCTOS).then(data => {
+
+      const json = JSON.parse(data.toString('utf-8'));
+      const body = json.findByid
+      const indexProduct = json.findIndex((obj) => obj.id == id);
+      json[indexProduct] = { ...productoNuevo, id: json[indexProduct].id };
+      res.send(json[indexProduct])
+      fs.promises.writeFile(FILE_PRODUCTOS, JSON.stringify(json, null, "\t"))
+        .then(() => {
+          console.log("Producto Actualizado Correctamente");
+        })
+    })
+  }
+  // Elimina un producto
+  deleteById(id) {
+
+
+    fs.promises.readFile(FILE_PRODUCTOS).then(data => {
+
+      const json = JSON.parse(data.toString('utf-8'));
+      const filter = json.filter(data => data.id != id);
+      fs.promises.writeFile(FILE_PRODUCTOS, JSON.stringify(filter, null, "\t"))
+        .then(() => {
+          console.log("Producto eliminado Correctamente");
+        })
+    })
+  }
+}
+
+// Exporta el modulo Productos
+module.exports = Productos;

@@ -20,13 +20,13 @@
 		"id": 2
 	},
 	{
-		"timestamp": 1631386012921,
-		"title": "asd",
-		"description": "asd",
-		"code": "asd",
-		"img": "asd",
-		"price": "123",
-		"stock": "123",
-		"id": 3
+		"timestamp": 1633369555083,
+		"title": "Razer",
+		"description": "microprocesador",
+		"code": "Rxmc",
+		"img": "img",
+		"price": 250,
+		"stock": 10,
+		"_id": "615b3dd3e3c65b9819bcac6a"
 	}
 ]
