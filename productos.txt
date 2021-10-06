@@ -11,12 +11,12 @@
 	},
 	{
 		"timestamp": 1631385926175,
-		"title": "Mandarina con Chocolate",
+		"title": "asd",
 		"description": "Riquisimas mandarinas con chocolate",
 		"code": "MC103",
 		"img": "https://img-global.cpcdn.com/002_recipes/recipes_41091_v1393351229_receta_foto_00041091/751x532cq70/photo.jpg",
-		"price": "245",
-		"stock": "25",
+		"price": "120",
+		"stock": "28",
 		"id": 2
 	},
 	{

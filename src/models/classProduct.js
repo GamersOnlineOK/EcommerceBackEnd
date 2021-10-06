@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { update } = require("./api");
 const FILE_PRODUCTOS = "productos.txt";
 class Productos {
   listaProductos = [];
@@ -55,18 +56,38 @@ class Productos {
   }
   // Actualiza un producto con ID existente
   updateById(id, productoNuevo) {
-    fs.promises.readFile(FILE_PRODUCTOS).then(data => {
+    const update = fs.promises.readFile(FILE_PRODUCTOS).then(data => {
 
       const json = JSON.parse(data.toString('utf-8'));
       const body = json.findByid
       const indexProduct = json.findIndex((obj) => obj.id == id);
-      json[indexProduct] = { ...productoNuevo, id: json[indexProduct].id };
-      res.send(json[indexProduct])
+      let prod = json[indexProduct];
+     
+      prod = productoNuevo;
+      
+      console.log(prod.stock);
+      const producto={
+        timestamp:json[indexProduct].timestamp,        
+        title: prod.title || json[indexProduct].title,
+        description: prod.description || json[indexProduct].description,
+        code: prod.code || json[indexProduct].code,
+        img: prod.img || json[indexProduct].img,
+        price: prod.price ||json[indexProduct].price,
+        stock: prod.stock || json[indexProduct].stock,
+        id:json[indexProduct].id
+      }
+
+      json[indexProduct] = {
+        ...producto };
+
       fs.promises.writeFile(FILE_PRODUCTOS, JSON.stringify(json, null, "\t"))
         .then(() => {
           console.log("Producto Actualizado Correctamente");
         })
+      return (json[indexProduct])
     })
+    return update;
+
   }
   // Elimina un producto
   deleteById(id) {
