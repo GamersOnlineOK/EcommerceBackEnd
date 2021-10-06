@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const fs = require("fs");
+const {userFakers}=require('../generadores/userFaker');
 const { async } = require('regenerator-runtime');
 const Productos = require('../models/classProduct')
 const FILE_PRODUCTOS = "productos.txt";
@@ -98,6 +99,25 @@ router.delete('/productos/eliminar/:id', session, async (req, res) => {
     const item= await db.deleteById(idToDelete);
     res.send("Producto Eliminado")
 
+})
+
+// MOTODO FAKERS
+router.get('/productos/vista-test/:cant?',(req, res)=>{
+    console.log("cantidad="+req.params.cant);
+    let cant= req.params.cant || 10;
+    
+    user=[];
+    if (cant<=0) {
+        user={error:"no hay productos"}
+    } else {
+        for (let index = 0; index < cant; index++) {
+        let usuario=userFakers();
+        user.push(usuario);
+        
+    }
+    }
+    
+    res.send(user);
 })
 
 module.exports = router;
