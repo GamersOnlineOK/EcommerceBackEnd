@@ -3,15 +3,16 @@ const router = express.Router();
 const fs = require("fs");
 const { userFakers } = require('../generadores/userFaker');
 const { async } = require('regenerator-runtime');
-const Productos = require('../models/classProduct')
 const FILE_PRODUCTOS = "productos.txt";
 const prod = require('../models/api');
-const { options } = require('../option/conection')
+const { options } = require('../sqlite/conection')
 const knex = require('knex')(options);
+const Productos = require('../models/classProduct')
 const MongoDB = require('../models/mongoData');
+const Sqlite = require('../models/sqlite');
 const admin = true;
 
-const DATA = 2;
+const DATA = 3;
 let db = 0;
 switch (DATA) {
     case 1:
@@ -19,6 +20,9 @@ switch (DATA) {
         break;
     case 2:
         db = new Productos();
+        break;
+    case 3:
+        db = new Sqlite();
         break;
     default:
         break;
@@ -36,18 +40,34 @@ const session = (req, res, next) => {
     }
 }
 const createTable = async (req, res, next) => {
-    await knex.schema.dropTableIfExists('productos')
-        .createTable('productos',
+
+    await knex.schema.dropTableIfExists('producto')
+        .createTable('producto',
             table => {
-                table.increments('id').notNullable()
-                table.string('nombre');
-                console.log("se creo la tabla");
-            })
+                table.string('$__')
+                table.string('$errors')
+                table.string('$isNew')
+                table.string('$locals')
+                table.string('$op')
+                table.string('_doc')
+                table.string('timestamp')
+                table.string('title')
+                table.string('description')
+                table.string('code')
+                table.string('img')
+                table.integer('price')
+                table.integer('stock')
+                table.string('_id')
+
+
+            }).then(() => console.log("se creo la tabla"))
+        .catch((err) => { console.log(err); throw err })
+        .finally(() => { knex.destroy(); })
     next();
 }
 router.get('/', session, async (req, res) => {
 
-    const ListProd = await prod.find();
+    const ListProd = await db.listar(req);
     console.log(ListProd);
     res.json(ListProd)
 
@@ -69,7 +89,7 @@ router.get('/productos/listar/:id', async (req, res) => {
 
 })
 // METODOS POST
-router.post('/productos/guardar', session, async (req, res) => {
+router.post('/productos/guardar', session,createTable, async (req, res) => {
 
 
     const { id, timestamp, title, description, code, img, price, stock } = req.body;
@@ -82,9 +102,9 @@ router.post('/productos/guardar', session, async (req, res) => {
 
 // METODOS PUT
 router.put('/productos/actualizar/:id', session, async (req, res) => {
-    const {title,description,code,img,price,stock } = req.query;
+    const { title, description, code, img, price, stock } = req.query;
     console.log(req.query);
-    const updateProduct = {title,description,code,img,price,stock};
+    const updateProduct = { title, description, code, img, price, stock };
     console.log(updateProduct);
     const idToUpdate = req.params.id;
     console.log(idToUpdate);
@@ -102,9 +122,9 @@ router.delete('/productos/eliminar/:id', session, async (req, res) => {
 })
 // METODO FILTER
 router.get('/productos/filtrar', async (req, res) => {
-    const {name,code,pricemin,pricemax,stockmin,stockmax}=req.query;
-    const request={name:name,code:code,pricemin:pricemin,pricemax:pricemax,stockmin:stockmin,stockmax:stockmax};
-    
+    const { name, code, pricemin, pricemax, stockmin, stockmax } = req.query;
+    const request = { name: name, code: code, pricemin: pricemin, pricemax: pricemax, stockmin: stockmin, stockmax: stockmax };
+
     const filter = await db.globalFilter(request);
     res.send(filter);
 })

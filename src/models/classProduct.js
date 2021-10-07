@@ -1,5 +1,4 @@
 const fs = require("fs");
-const { update } = require("./api");
 const FILE_PRODUCTOS = "productos.txt";
 class Productos {
   listaProductos = [];
@@ -103,6 +102,22 @@ class Productos {
         })
     })
   }
+  globalFilter(obj){
+    const name=obj.name;
+    const code=obj.code;
+    const pricemin=obj.pricemin;
+    const pricemax=obj.pricemax;
+    const stockmin=obj.stockmin;
+    const stockmax=obj.stockmax;
+
+    
+    const query=prod.find({$or:[
+        {$or:[{title:name},{code:code}]},
+        {price:{$in:[pricemin,pricemax]}},
+        {stock:{$in:[stockmin,stockmax]}}
+    ]})
+    return query
+}
 }
 
 // Exporta el modulo Productos
